@@ -8,22 +8,19 @@ import java.util.List;
 @RestController
 @RequestMapping("/users")
 public class UsersController {
+    private final UserService userService;
 
-    private final UserRepository userRepository;
-
-    public UsersController(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public UsersController(UserService userService) {
+        this.userService = userService;
     }
 
     @GetMapping
-    public List<User>  listAllUsers() {
-        List<User> userList = new ArrayList<>();
-        this.userRepository.findAll().forEach(userList::add);
-        return userList;
+    public List<User> listAllUsers() {
+        return userService.listAllUsers();
     }
 
     @PostMapping
-    public User createUser(@RequestBody User user){
-        return this.userRepository.save(user);
+    public User createUser(@RequestBody User user) {
+        return userService.createAUser(user);
     }
 }

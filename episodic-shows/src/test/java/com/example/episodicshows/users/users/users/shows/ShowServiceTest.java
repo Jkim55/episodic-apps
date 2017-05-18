@@ -1,12 +1,12 @@
-package com.example.episodicshows.users.users.users.users;
+package com.example.episodicshows.users.users.users.shows;
 
 import org.junit.Test;
 
 //unit tests for edge cases; doesn't even need spring.
-public class UserServiceTest {
+public class ShowServiceTest {
 
     @Test
-    public void itListsUsers() {
+    public void itListsShows() {
         // new up a resource
         // pass to service
         // assert (hamcrest library is a good one)

@@ -2,7 +2,6 @@ package com.example.episodicshows.users.users.users.shows;
 
 import com.example.episodicshows.shows.Show;
 import com.example.episodicshows.shows.ShowRepository;
-import com.example.episodicshows.users.User;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hamcrest.core.IsInstanceOf;
 import org.hamcrest.core.IsNull;

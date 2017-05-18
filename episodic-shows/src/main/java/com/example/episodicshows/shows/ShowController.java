@@ -8,21 +8,19 @@ import java.util.List;
 @RestController
 @RequestMapping("/shows")
 public class ShowController {
-    private final ShowRepository showRepository;
+    private final ShowService showService;
 
-    public ShowController(ShowRepository showRepository) {
-        this.showRepository = showRepository;
+    public ShowController(ShowService showService) {
+        this.showService = showService;
     }
 
     @GetMapping
     public List<Show> listAllShows(){
-        List<Show> showList = new ArrayList<>();
-        this.showRepository.findAll().forEach(showList::add);
-        return showList;
+        return showService.listAllShows();
     }
 
     @PostMapping
     public Show createShow(@RequestBody Show show) {
-        return this.showRepository.save(show);
+        return showService.createAShow(show);
     }
 }
