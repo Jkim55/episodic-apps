@@ -11,6 +11,7 @@ public class UsersController {
     private final UserService userService;
 
     public UsersController(UserService userService) {
+        assert userService != null;
         this.userService = userService;
     }
 

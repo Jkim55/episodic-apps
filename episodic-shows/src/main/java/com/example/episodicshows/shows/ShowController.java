@@ -11,6 +11,7 @@ public class ShowController {
     private final ShowService showService;
 
     public ShowController(ShowService showService) {
+        assert showService != null;
         this.showService = showService;
     }
 
