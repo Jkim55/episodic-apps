@@ -1,8 +1,12 @@
-package com.example.episodicshows.users;
+package com.example.episodicshows.users.users.users.shows;
 
+import com.example.episodicshows.shows.Show;
+import com.example.episodicshows.shows.ShowRepository;
+import com.example.episodicshows.users.User;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hamcrest.core.IsInstanceOf;
 import org.hamcrest.core.IsNull;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -21,9 +25,9 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.HashMap;
 import java.util.Map;
 
+import static junit.framework.TestCase.assertEquals;
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.core.IsEqual.equalTo;
-import static org.junit.Assert.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -31,77 +35,72 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-public class UsersControllerTest {
+public class ShowsControllerTest {
 
     @Autowired
     private MockMvc mvc;
 
     @Autowired
-    UserRepository userRepository;
-
-    @Before public void setup(){
-        userRepository.deleteAll();
-    }
+    ShowRepository showRepository;
 
     @Before
-    public void setUp() throws Exception {
-        userRepository.deleteAll();
+    public void setup() {
+        showRepository.deleteAll();
     }
 
     @Test
     @Transactional
     @Rollback
-    public void itCanCreateNewUsers() throws Exception {
-        final Long intialCount = userRepository.count();
+    public void itCanCreateNewShows() throws Exception {
+        final Long initialCount = showRepository.count();
         Map<String, Object> payload = new HashMap<String, Object>(){
             {
-                put("email", "jiggy@example.com");
+                put("name", "The Mindy Project");
             }
         };
 
         ObjectMapper mapper = new ObjectMapper();
         String jsonPayload = mapper.writeValueAsString(payload);
 
-        MockHttpServletRequestBuilder request = MockMvcRequestBuilders.post("/users")
+        MockHttpServletRequestBuilder postRequest = MockMvcRequestBuilders.post("/shows")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .content(jsonPayload);
 
-
-        this.mvc.perform(request)
+        this.mvc.perform(postRequest)
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.id", IsNull.notNullValue()))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.id", instanceOf(Number.class)))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.email", equalTo("jiggy@example.com")));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.name", equalTo("The Mindy Project")));
 
-        assertEquals(intialCount+1, userRepository.count());
+        assertEquals(initialCount+1, showRepository.count());
+
     }
 
     @Test
     @Transactional
     @Rollback
-    public void itCanGetUsers() throws Exception {
-        final Long initialCount = userRepository.count();
+    public void itCanListAllUsers() throws Exception {
+        final Long initialCount = showRepository.count();
 
-        User user1 = new User();
-        user1.setEmail("JJ@email.com");
-        userRepository.save(user1);
+        Show show1 = new Show();
+        show1.setName("The Mindy Project");
+        showRepository.save(show1);
 
-        User user2 = new User();
-        user2.setEmail("JT@email.com");
-        userRepository.save(user2);
+        Show show2 = new Show();
+        show2.setName("Master of None");
+        showRepository.save(show2);
 
-        MockHttpServletRequestBuilder request = get("/users")
+        MockHttpServletRequestBuilder getRequest = get("/shows")
                 .contentType(MediaType.APPLICATION_JSON);
 
-        this.mvc.perform(request)
+        this.mvc.perform(getRequest)
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.[0].id", IsInstanceOf.instanceOf(Number.class)))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.[0].email", equalTo("JJ@email.com")))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.[0].name", equalTo("The Mindy Project")))
                 .andExpect(jsonPath("$.[1].id", IsInstanceOf.instanceOf(Number.class)))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.[1].email", equalTo("JT@email.com")));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.[1].name", equalTo("Master of None")));
 
-        assertEquals(initialCount+2, userRepository.count());
+        Assert.assertEquals(initialCount + 2, showRepository.count());
     }
-
 }
