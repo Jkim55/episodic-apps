@@ -19,17 +19,12 @@ public class Episode {
 
     @JsonIgnore
     private Long showId;
+
     private int seasonNumber;
     private int episodeNumber;
 
 
     public String getTitle () {
-        StringBuilder sb = new StringBuilder();
-        sb.append("S");
-        sb.append(((Integer)seasonNumber).toString());
-        sb.append(" ");
-        sb.append("E");
-        sb.append(((Integer)episodeNumber).toString());
-        return sb.toString();
+        return String.format("S%d E%d", seasonNumber, episodeNumber);
     }
 }

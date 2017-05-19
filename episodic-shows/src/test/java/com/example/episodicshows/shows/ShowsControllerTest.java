@@ -1,13 +1,9 @@
 package com.example.episodicshows.shows;
 
-import com.example.episodicshows.shows.EpisodeRepository;
-import com.example.episodicshows.shows.Show;
-import com.example.episodicshows.shows.ShowRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hamcrest.core.IsInstanceOf;
 import org.hamcrest.core.IsNull;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,12 +22,14 @@ import java.util.Map;
 
 import static junit.framework.TestCase.assertEquals;
 import static org.hamcrest.CoreMatchers.instanceOf;
+import static org.hamcrest.Matchers.containsInAnyOrder;
+import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -46,11 +44,6 @@ public class ShowsControllerTest {
 
     @Autowired
     EpisodeRepository episodeRepository;
-
-    @Before
-    public void setup() {
-        showRepository.deleteAll();
-    }
 
     @Test
     @Transactional
@@ -100,10 +93,9 @@ public class ShowsControllerTest {
 
         this.mvc.perform(getRequest)
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.[0].id", IsInstanceOf.instanceOf(Number.class)))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.[0].name", equalTo("The Mindy Project")))
-                .andExpect(jsonPath("$.[1].id", IsInstanceOf.instanceOf(Number.class)))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.[1].name", equalTo("Master of None")));
+                .andExpect(jsonPath("$", hasSize(2)))
+                .andExpect(jsonPath("$..id").exists())
+                .andExpect(jsonPath("$..name", containsInAnyOrder("The Mindy Project", "Master of None")));
 
         Assert.assertEquals(initialCount + 2, showRepository.count());
     }
@@ -111,14 +103,14 @@ public class ShowsControllerTest {
     @Test
     @Transactional
     @Rollback
-    public void itCanListAllEpisodesGivenAShowId() throws Exception {
+    public void itCanCreateAnEpisodeByShowID() throws Exception {
         Show show = new Show();
         show.setName("Master of None");
         showRepository.save(show);
-
         Long showId = show.getId();
 
-        final Long initialCount = showRepository.count();
+        final Long initialCount = episodeRepository.count();
+
         Map<String, Object> payload = new HashMap<String, Object>() {
             {
                 put("seasonNumber", 2);
@@ -148,4 +140,40 @@ public class ShowsControllerTest {
 
     }
 
+    @Test
+    @Transactional
+    @Rollback
+    public void itCanListAllEpisodesGivenAShowId() throws Exception {
+        Show show = new Show();
+        show.setName("Master of None");
+        showRepository.save(show);
+        Long showId = show.getId();
+
+        final Long initialCount = episodeRepository.count();
+
+        Episode savedEpisode1 = new Episode();
+        savedEpisode1.setId((long) 1);
+        savedEpisode1.setShowId(showId);
+        savedEpisode1.setSeasonNumber(3);
+        savedEpisode1.setEpisodeNumber(1);
+        episodeRepository.save(savedEpisode1);
+
+        Episode savedEpisode2 = new Episode();
+        savedEpisode2.setId((long) 2);
+        savedEpisode2.setShowId(showId);
+        savedEpisode2.setSeasonNumber(3);
+        savedEpisode2.setEpisodeNumber(2);
+        episodeRepository.save(savedEpisode2);
+
+        MockHttpServletRequestBuilder getRequest = get(String.format("/shows/%d/episodes", showId))
+                .contentType(MediaType.APPLICATION_JSON);
+
+        this.mvc.perform(getRequest)
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(2)))
+                .andExpect(jsonPath("$..id").exists())
+                .andExpect(jsonPath("$..seasonNumber", containsInAnyOrder(3, 3)))
+                .andExpect(jsonPath("$..episodeNumber", containsInAnyOrder(1, 2)))
+                .andExpect(jsonPath("$..title", containsInAnyOrder("S3 E1", "S3 E2")));
+    }
 }
