@@ -13,15 +13,12 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public List<User> listAllUsers() {
-        List<User> userList = new ArrayList<>();
-        userRepository.findAll().forEach(userList::add);
-        return userList;
+    public Iterable<User> listAllUsers() {
+        return userRepository.findAll();
     }
 
     public User createAUser(User user) {
         return userRepository.save(user);
-
     }
 
 }

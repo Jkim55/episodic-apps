@@ -1,8 +1,8 @@
 package com.example.episodicshows.shows;
 
-import java.util.ArrayList;
-import java.util.List;
+import org.springframework.stereotype.Service;
 
+@Service
 public class ShowService {
     private final ShowRepository showRepository;
 
@@ -10,14 +10,12 @@ public class ShowService {
         this.showRepository = showRepository;
     }
 
-
-    public List<Show> listAllShows() {
-        List<Show> showList = new ArrayList<>();
-        showRepository.findAll().forEach(showList::add);
-        return showList;
+    public Iterable<Show> listAllShows() {
+        return showRepository.findAll();
     }
 
     public Show createAShow(Show show) {
         return showRepository.save(show);
     }
+
 }
