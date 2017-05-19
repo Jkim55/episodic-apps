@@ -5,10 +5,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Arrays;
-import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsEqual.equalTo;
@@ -19,9 +17,6 @@ import static org.mockito.Mockito.when;
 public class EpisodeServiceTest {
 
     private EpisodeService episodeService;
-
-    @Mock
-    private EpisodeResponse episodeResponse;
 
     @Mock
     private EpisodeRepository episodeRepository;
@@ -45,11 +40,7 @@ public class EpisodeServiceTest {
 
         when(episodeRepository.save(any(Episode.class))).thenReturn(savedEpisode);
 
-        EpisodeResponse episodeResponse = new EpisodeResponse((long) 1, 3, 1, "S3 E1");
-
-        when(new EpisodeResponse(any(), any(), any(), any())).thenReturn(episodeResponse);
-
-        assertThat(episodeService.createAnEpisode((long) 5, payload), equalTo(episodeResponse));
+        assertThat(episodeService.createAnEpisode((long) 5, payload), equalTo(savedEpisode));
     }
 
     @Test
@@ -67,12 +58,9 @@ public class EpisodeServiceTest {
         savedEpisode2.setSeasonNumber(3);
         savedEpisode2.setEpisodeNumber(2);
 
-        EpisodeResponse episodeResponse1 = new EpisodeResponse((long) 1, 3, 1, "S3 E1");
-        EpisodeResponse episodeResponse2 = new EpisodeResponse((long) 2, 3, 2, "S3 E2");
-
         when(episodeRepository.findByShowId((long)5)).thenReturn(Arrays.asList(savedEpisode1, savedEpisode2));
 
-        assertThat(episodeService.listAllEpisodesbyShow((long)5), equalTo(Arrays.asList(episodeResponse1, episodeResponse2)));
+        assertThat(episodeService.listAllEpisodesbyShow((long)5), equalTo(Arrays.asList(savedEpisode1, savedEpisode2)));
 
     }
 

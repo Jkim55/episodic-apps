@@ -28,12 +28,12 @@ public class ShowController {
     }
 
     @GetMapping("/{id}/episodes")
-    public List<EpisodeResponse> listAllEpisodesForSpecificShow(@PathVariable("id") Long showId){
+    public List<Episode> listAllEpisodesForSpecificShow(@PathVariable("id") Long showId){
         return episodeService.listAllEpisodesbyShow(showId);
     }
 
     @PostMapping("/{id}/episodes")
-    public EpisodeResponse createAnEpisodeForExistingShow(@PathVariable("id") Long showId, @RequestBody Episode episode) {
+    public Episode createAnEpisodeForExistingShow(@PathVariable("id") Long showId, @RequestBody Episode episode) {
         return episodeService.createAnEpisode(showId, episode);
     }
 }
