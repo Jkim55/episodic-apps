@@ -11,17 +11,15 @@ import java.util.HashMap;
 @Setter
 @NoArgsConstructor
 public class RewindEvent extends Event {
-    private int startOffset;
-    private int endOffset;
-    private int speed;
+    private HashMap<String, Object> data;
 
-    private HashMap<String, Object> getData() {
-        HashMap<String, Object> rewindData = new HashMap();
-        rewindData.put("startOffset", startOffset);
-        rewindData.put("endOffset", endOffset);
-        rewindData.put("speed", speed);
-        return rewindData;
-    }
+//    private HashMap<String, Object> getData() {
+//        HashMap<String, Object> rewindData = new HashMap();
+//        rewindData.put("startOffset", startOffset);
+//        rewindData.put("endOffset", endOffset);
+//        rewindData.put("speed", speed);
+//        return rewindData;
+//    }
 
     @JsonProperty("type")
     public String getEventType(){

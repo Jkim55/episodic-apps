@@ -11,13 +11,13 @@ import java.util.HashMap;
 @Setter
 @NoArgsConstructor
 public class PauseEvent extends Event {
-    private int offset;
-
-    public HashMap<String, Object> getData() {
-        HashMap<String, Object> pauseData = new HashMap();
-        pauseData.put("offset", offset);
-        return pauseData;
-    }
+    private HashMap<String, Object> data;
+//
+//    public HashMap<String, Object> getData() {
+//        HashMap<String, Object> pauseData = new HashMap();
+//        pauseData.put("offset", offset);
+//        return pauseData;
+//    }
 
     @JsonProperty("type")
     public String getEventType(){

@@ -11,13 +11,13 @@ import java.util.HashMap;
 @Setter
 @NoArgsConstructor
 public class ProgressEvent extends Event {
-    private int offset;
+    private HashMap<String, Object> data;
 
-    public HashMap<String, Object> getData() {
-        HashMap<String, Object> progressData = new HashMap();
-        progressData.put("offset", offset);
-        return progressData;
-    }
+//    public HashMap<String, Object> getData() {
+//        HashMap<String, Object> progressData = new HashMap();
+//        progressData.put("offset", offset);
+//        return progressData;
+//    }
 
     @JsonProperty("type")
     public String getEventType(){

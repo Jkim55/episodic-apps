@@ -11,15 +11,14 @@ import java.util.HashMap;
 @Setter
 @NoArgsConstructor
 public class ScrubEvent extends Event {
-    private int startOffset;
-    private int endOffset;
+    private HashMap<String, Object> data;
 
-    public HashMap<String, Object> getData() {
-        HashMap<String, Object> scrubData = new HashMap();
-        scrubData.put("startOffset", startOffset);
-        scrubData.put("endOffset", endOffset);
-        return scrubData;
-    }
+//    public HashMap<String, Object> getData() {
+//        HashMap<String, Object> scrubData = new HashMap();
+//        scrubData.put("startOffset", startOffset);
+//        scrubData.put("endOffset", endOffset);
+//        return scrubData;
+//    }
 
     @JsonProperty("type")
     public String getEventType(){
