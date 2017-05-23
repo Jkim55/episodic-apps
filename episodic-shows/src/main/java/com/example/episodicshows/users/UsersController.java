@@ -1,15 +1,14 @@
 package com.example.episodicshows.users;
 
-import com.example.episodicshows.shows.EpisodeService;
-import com.example.episodicshows.shows.ShowService;
 import com.example.episodicshows.viewings.Viewing;
+import com.example.episodicshows.viewings.ViewingRepository;
+import com.example.episodicshows.viewings.ViewingResponse;
 import com.example.episodicshows.viewings.ViewingService;
-import org.springframework.http.HttpStatus;
+import com.fasterxml.jackson.annotation.JsonView;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.swing.text.View;
-import java.util.Collections;
 import java.util.List;
 
 @RestController
@@ -40,8 +39,8 @@ public class UsersController {
         return viewingService.createAViewingEntry(userId, viewing);
     }
 
-    @GetMapping("/{id}/recently-watched")
-    public List<Viewing> getAllViewingDataForAUser(@PathVariable("id") Long userId){
+    @GetMapping(value = "/{id}/recently-watched", produces= MediaType.APPLICATION_JSON_VALUE)
+    public List<ViewingResponse> getAllViewingDataForAUser(@PathVariable("id") Long userId){
         return viewingService.getViewingDataByUserID(userId);
     }
 }

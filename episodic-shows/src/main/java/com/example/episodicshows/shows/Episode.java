@@ -23,8 +23,8 @@ public class Episode {
     private int seasonNumber;
     private int episodeNumber;
 
-    private String getTitle () {
-        return String.format("S%d E%d", seasonNumber, episodeNumber);
+    public String getTitle () {
+        return String.format("S%d E%d", this.seasonNumber, this.episodeNumber);
     }
 
 }

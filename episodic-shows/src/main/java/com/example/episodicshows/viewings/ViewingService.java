@@ -34,11 +34,10 @@ public class ViewingService {
         Show show = showRepository.findOne(episode.getShowId());
 
         if (existingViewingEntry == null) {
+
             viewingPayload.setUserId(userId);
             viewingPayload.setShowId(show.getId());
             viewingPayload.setEpisodeId(episode.getId());
-            viewingPayload.setEpisode(episode);
-            viewingPayload.setShow(show);
             viewingRepository.save(viewingPayload);
         } else {
             existingViewingEntry.setUpdatedAt(viewingPayload.getUpdatedAt());
@@ -49,18 +48,22 @@ public class ViewingService {
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    public List<Viewing> getViewingDataByUserID(Long userId) {
+    public List<ViewingResponse> getViewingDataByUserID(Long userId) {
         List<Viewing> viewings = viewingRepository.findAllByUserId(userId);
 
-        List<Viewing> viewingResponses = viewings
+        List<ViewingResponse> viewingResponses = viewings
                 .stream()
                 .map(viewing ->
                 {
+                    ViewingResponse viewingResponse = new ViewingResponse();
+
                     Show show = showRepository.findOne(viewing.getShowId());
                     Episode episode = episodeRepository.findOne(viewing.getEpisodeId());
-                    viewing.setShow(show);
-                    viewing.setEpisode(episode);
-                    return viewing;
+                    viewingResponse.setShow(show);
+                    viewingResponse.setEpisode(episode);
+                    viewingResponse.setUpdatedAt(viewing.getUpdatedAt());
+                    viewingResponse.setTimecode(viewing.getTimecode());
+                    return viewingResponse;
                 })
                 .collect(Collectors.toList());
         return viewingResponses;

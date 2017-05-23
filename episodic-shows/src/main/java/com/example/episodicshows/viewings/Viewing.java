@@ -1,13 +1,12 @@
 package com.example.episodicshows.viewings;
 
-import com.example.episodicshows.shows.*;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonSetter;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import java.time.LocalDateTime;
 
 @Entity(name = "viewings")
@@ -28,11 +27,5 @@ public class Viewing {
     private LocalDateTime updatedAt;
 
     private int timecode;
-
-    @Transient
-    private Episode episode;
-
-    @Transient
-    private Show show;
 
 }
