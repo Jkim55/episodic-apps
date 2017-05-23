@@ -20,4 +20,8 @@ public class EpisodeService {
     public List<Episode> listAllEpisodesbyShow(Long showId) {
         return episodeRepository.findByShowId(showId);
     }
+
+    public Episode findById(Long episodeId) {
+        return episodeRepository.findOne(episodeId);
+    }
 }

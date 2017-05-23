@@ -18,4 +18,7 @@ public class ShowService {
         return showRepository.save(show);
     }
 
+    public Show findById(Long showId) {
+        return showRepository.findOne(showId);
+    }
 }

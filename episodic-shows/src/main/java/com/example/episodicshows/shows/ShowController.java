@@ -36,4 +36,10 @@ public class ShowController {
     public Episode createAnEpisodeForExistingShow(@PathVariable("id") Long showId, @RequestBody Episode episode) {
         return episodeService.createAnEpisode(showId, episode);
     }
+
+//    @PostMapping("/{id}/episodes")
+//    public ResponseEntity<Episode> createAnEpisodeForExistingShow(@PathVariable("id") Long showId, @RequestBody Episode episode) {
+//        Episode episode = episodeService.createAnEpisode(showId, episode);
+//        return ResponseEntity.ok(episode);
+//    }
 }

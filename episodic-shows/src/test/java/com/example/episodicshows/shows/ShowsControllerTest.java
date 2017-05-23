@@ -17,9 +17,11 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+import static java.util.Collections.singletonMap;
 import static junit.framework.TestCase.assertEquals;
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.Matchers.containsInAnyOrder;
@@ -50,19 +52,13 @@ public class ShowsControllerTest {
     @Rollback
     public void itCanCreateNewShows() throws Exception {
         final Long initialCount = showRepository.count();
-        Map<String, Object> payload = new HashMap<String, Object>() {
-            {
-                put("name", "The Mindy Project");
-            }
-        };
-
         ObjectMapper mapper = new ObjectMapper();
-        String jsonPayload = mapper.writeValueAsString(payload);
+        Map payload = singletonMap("name", "The Mindy Project");
 
         MockHttpServletRequestBuilder postRequest = post("/shows")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
-                .content(jsonPayload);
+                .content(mapper.writeValueAsString(payload));
 
         this.mvc.perform(postRequest)
                 .andExpect(MockMvcResultMatchers.status().isOk())
@@ -152,14 +148,14 @@ public class ShowsControllerTest {
         final Long initialCount = episodeRepository.count();
 
         Episode savedEpisode1 = new Episode();
-        savedEpisode1.setId((long) 1);
+        savedEpisode1.setId(1L);
         savedEpisode1.setShowId(showId);
         savedEpisode1.setSeasonNumber(3);
         savedEpisode1.setEpisodeNumber(1);
         episodeRepository.save(savedEpisode1);
 
         Episode savedEpisode2 = new Episode();
-        savedEpisode2.setId((long) 2);
+        savedEpisode2.setId(2L);
         savedEpisode2.setShowId(showId);
         savedEpisode2.setSeasonNumber(3);
         savedEpisode2.setEpisodeNumber(2);
