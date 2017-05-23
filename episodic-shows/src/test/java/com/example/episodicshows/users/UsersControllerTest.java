@@ -180,8 +180,6 @@ public class UsersControllerTest {
         episodeRepository.save(episode);
 
         Viewing viewing1 = new Viewing();
-        viewing1.setShow(show);
-        viewing1.setEpisode(episode);
         viewing1.setShowId(episode.getShowId());
         viewing1.setUserId(userId);
         viewing1.setEpisodeId(episode.getId());
