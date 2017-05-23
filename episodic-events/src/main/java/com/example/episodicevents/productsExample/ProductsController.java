@@ -1,4 +1,4 @@
-package com.example.episodicevents.products;
+package com.example.episodicevents.productsExample;
 
 import org.springframework.web.bind.annotation.*;
 
@@ -6,7 +6,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @RestController
-@RequestMapping("/products")
+@RequestMapping("/productsExample")
 public class ProductsController {
     @GetMapping
     public List<Object> getProducts() {

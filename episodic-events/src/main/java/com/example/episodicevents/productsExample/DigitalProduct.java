@@ -1,4 +1,4 @@
-package com.example.episodicevents.products;
+package com.example.episodicevents.productsExample;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

@@ -1,4 +1,4 @@
-package com.example.episodicevents.products;
+package com.example.episodicevents.productsExample;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
