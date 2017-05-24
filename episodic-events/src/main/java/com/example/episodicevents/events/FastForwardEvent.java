@@ -13,14 +13,6 @@ import java.util.HashMap;
 public class FastForwardEvent extends Event {
     private HashMap<String, Object> data;
 
-//    public HashMap<String, Object> getData() {
-//        HashMap<String, Object> fastForwardData = new HashMap();
-//        fastForwardData.put("startOffset", startOffset);
-//        fastForwardData.put("endOffset", endOffset);
-//        fastForwardData.put("speed", speed);
-//        return fastForwardData;
-//    }
-
     @JsonProperty("type")
     public String getEventType(){
         return "fastForward";

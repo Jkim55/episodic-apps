@@ -13,12 +13,6 @@ import java.util.HashMap;
 public class ProgressEvent extends Event {
     private HashMap<String, Object> data;
 
-//    public HashMap<String, Object> getData() {
-//        HashMap<String, Object> progressData = new HashMap();
-//        progressData.put("offset", offset);
-//        return progressData;
-//    }
-
     @JsonProperty("type")
     public String getEventType(){
         return "progress";

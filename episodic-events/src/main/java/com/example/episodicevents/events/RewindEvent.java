@@ -13,14 +13,6 @@ import java.util.HashMap;
 public class RewindEvent extends Event {
     private HashMap<String, Object> data;
 
-//    private HashMap<String, Object> getData() {
-//        HashMap<String, Object> rewindData = new HashMap();
-//        rewindData.put("startOffset", startOffset);
-//        rewindData.put("endOffset", endOffset);
-//        rewindData.put("speed", speed);
-//        return rewindData;
-//    }
-
     @JsonProperty("type")
     public String getEventType(){
         return "rewind";
